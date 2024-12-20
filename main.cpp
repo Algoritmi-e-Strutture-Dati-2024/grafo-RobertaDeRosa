@@ -1,34 +1,71 @@
 #include <iostream>
-#include "Grafo.cpp" 
+#include "Grafo.cpp"
+
+using namespace std;
+
 int main() {
-    // Creazione del grafo
     Grafo<int> grafo;
 
-    // Aggiunta dei nodi 
-    grafo.aggiungiNodo(1);
-    grafo.aggiungiNodo(2);
-    grafo.aggiungiNodo(3);
-    grafo.aggiungiNodo(4);
-    grafo.aggiungiNodo(5);
+    grafo.aggiungiNodo("Mario");
+    grafo.aggiungiNodo("Lorenza");
+    grafo.aggiungiNodo("Giacomo");
+    grafo.aggiungiNodo("Anna");
+    grafo.aggiungiNodo("Antonio");
 
-    // Aggiunta degli archi con pesi
-    grafo.aggiungiArco(1, 2, 5);
-    grafo.aggiungiArco(1, 3, 3);
-    grafo.aggiungiArco(2, 4, 2);
-    grafo.aggiungiArco(3, 5, 4);
-    grafo.aggiungiArco(4, 5, 1);
-    grafo.aggiungiArco(5, 2, 6);
+    grafo.aggiungiArco("Mario", "Lorenza", 5);
+    grafo.aggiungiArco("Mario", "Giacomo", 3);
+    grafo.aggiungiArco("Lorenza", "Anna", 2);
+    grafo.aggiungiArco("Giacomo", "Antonio", 4);
+    grafo.aggiungiArco("Anna", "Antonio", 1);
+    grafo.aggiungiArco("Antonio", "Lorenza", 6);
 
-// Stampa della matrice di adiacenza del grafo
     grafo.stampa();
 
-    // Verifica se un nodo esiste
-    std::cout << "Esiste il nodo 3? " << (grafo.verificaNodo(3) ? "Sì" : "No") << std::endl;
+    if (grafo.verificaNodo("Giacomo")) {
+        cout << "Il nodo denominato Giacomo esiste? Sì" << endl;
+    } else {
+        cout << "Il nodo denominato Giacomo esiste? No" << endl;
+    }
 
-    // Verifica se un arco esiste
-    std::cout << "Esiste un arco tra 1 e 2? " << (grafo.verificaArco(1, 2) ? "Sì" : "No") << std::endl;
-    std::cout << "Esiste un arco tra 1 e 4? " << (grafo.verificaArco(1, 4) ? "Sì" : "No") << std::endl;
+    if (grafo.verificaArco("Mario", "Lorenza")) {
+        cout << "Esiste un arco tra Mario e Lorenza? Sì" << endl;
+    } else {
+        cout << "Esiste un arco tra Mario e Lorenza? No" << endl;
+    }
 
-    // Visualizza i nodi adiacenti a un nodo
-    grafo.nodiAdiacenti(1);
+    if (grafo.verificaArco("Mario", "Anna")) {
+        cout << "Esiste un arco tra Mario e Anna? Sì" << endl;
+    } else {
+        cout << "Esiste un arco tra Mario e Anna? No" << endl;
+    }
 
+    grafo.nodiAdiacenti("Mario");
+
+    grafo.rimuoviArco("Mario", "Lorenza");
+    cout << "Scrivo ora la matrice di adiacenza dopo che ho rimosso l'arco tra Mario e Lorenza:" << endl;
+    grafo.stampa();
+
+    grafo.rimuoviNodo("Giacomo");
+    cout << "Scrivo ora la matrice di adiacenza dopo aver rimosso il nodo Giacomo:" << endl;
+    grafo.stampa();
+
+    grafo.aggiungiNodo("Francesco");
+    grafo.aggiungiArco("Antonio", "Francesco", 7);
+    cout << "Scrivo la matrice di Adiacenza dopo aver aggiunto il nodo Francesco e dell'arco tra Antonio e Francesco:" << endl;
+    grafo.stampa();
+
+    if (grafo.verificaArco("Mario", "Antonio")) {
+        cout << "Il nodo Mario è connesso al nodo Antonio? Sì" << endl;
+    } else {
+        cout << "Il nodo Mario è connesso al nodo Antonio? No" << endl;
+    }
+
+    int arcoMinimo = grafo.arcoConPesoMinore(5);
+    if (arcoMinimo != -1) {
+        cout << "L'arco con il peso minimo da 5 ha peso: " << arcoMinimo << endl;
+    } else {
+        cout << "Non ci sono archi uscenti da 5." << endl;
+    }
+
+    return 0;
+}
